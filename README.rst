@@ -94,7 +94,7 @@ Add the default theme in your settings file:
 
     # In settings.py
     INSTALLED_APPS += ('djadmin2.themes.djadmin2theme_default',)
-    ADMIN2_THEME_DIRECTORY = "djadmin2theme_default/"
+    ADMIN2_THEME_DIRECTORY = "djadmin2theme_default"
 
 Add djadmin2 urls to your URLconf:
 
@@ -149,7 +149,7 @@ Themes are now defined explicitly, including the default theme. Therefore, your 
 
     # In settings.py
     INSTALLED_APPS += ('djadmin2.themes.djadmin2theme_default',)
-    ADMIN2_THEME_DIRECTORY = "djadmin2theme_default/"
+    ADMIN2_THEME_DIRECTORY = "djadmin2theme_default"
 
 
 Drop-In Themes
@@ -161,7 +161,7 @@ The default theme is whatever bootstrap is most current. Specifically:
 
     # In settings.py
     INSTALLED_APPS += ('djadmin2.themes.djadmin2theme_default',)
-    ADMIN2_THEME_DIRECTORY = "djadmin2theme_default/"
+    ADMIN2_THEME_DIRECTORY = "djadmin2theme_default"
 
 If you create a new theme, you define it thus:
 
@@ -170,7 +170,7 @@ If you create a new theme, you define it thus:
     # In settings.py
     # Mythical theme! This does not exit... YET!
     INSTALLED_APPS += ('djadmin2theme_foundation',)
-    ADMIN2_THEME_DIRECTORY = "djadmin2theme_foundation/"
+    ADMIN2_THEME_DIRECTORY = "djadmin2theme_foundation"
     
 Follows Best Practices
 ======================
