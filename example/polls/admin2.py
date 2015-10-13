@@ -20,7 +20,7 @@ class PollAdmin(djadmin2.ModelAdmin2):
     list_display = ('question', 'pub_date', 'was_published_recently')
     list_filter = ['pub_date']
     search_fields = ['question']
-    date_hierarchy = 'pub_date'
+    #date_hierarchy = 'pub_date'
 
 
 djadmin2.default.register(Poll, PollAdmin)

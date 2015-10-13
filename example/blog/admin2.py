@@ -30,7 +30,7 @@ class PostAdmin(djadmin2.ModelAdmin2):
         'title': renderers.title_renderer,
     }
     save_on_top = True
-    date_hierarchy = "published_date"
+    #date_hierarchy = "published_date"
     ordering = ["-published_date", "title",]
 
 
