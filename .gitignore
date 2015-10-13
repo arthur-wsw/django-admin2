@@ -57,5 +57,8 @@ logfile
 *.sublime-workspace
 *.sublime-project
 
+# PyCharm
+.idea
+
 # test media upload
 media
