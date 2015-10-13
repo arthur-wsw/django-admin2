@@ -63,12 +63,18 @@ class IndexView(Admin2Mixin, generic.TemplateView):
     app_verbose_names = None
 
     def get_context_data(self, **kwargs):
-        data = super(IndexView, self).get_context_data(**kwargs)
-        data.update({
-            'apps': self.apps,
-            'app_verbose_names': self.app_verbose_names,
-        })
-        return data
+        context = super(IndexView, self).get_context_data(**kwargs)
+        if self.request.user.is_superuser:
+            context.update({
+                'apps': self.apps,
+                'app_verbose_names': self.app_verbose_names,
+            })
+        else:
+            context.update({
+                'apps': self.get_authorized_apps(self.apps, context.get('permissions')),
+                'app_verbose_names': self.app_verbose_names,
+            })
+        return context
 
 
 class AppIndexView(Admin2Mixin, generic.TemplateView):
@@ -90,15 +96,21 @@ class AppIndexView(Admin2Mixin, generic.TemplateView):
     app_verbose_names = None
 
     def get_context_data(self, **kwargs):
-        data = super(AppIndexView, self).get_context_data(**kwargs)
+        context = super(AppIndexView, self).get_context_data(**kwargs)
         app_label = self.kwargs['app_label']
-        registry = self.apps[app_label]
-        data.update({
-            'app_label': app_label,
-            'registry': registry,
-            'app_verbose_names': self.app_verbose_names,
-        })
-        return data
+        if self.request.user.is_superuser:
+            context.update({
+                'app_label': app_label,
+                'registry': self.apps[app_label],
+                'app_verbose_names': self.app_verbose_names,
+            })
+        else:
+            context.update({
+                'app_label': app_label,
+                'registry': self.get_authorized_registry(self.apps[app_label], context.get('permissions')),
+                'app_verbose_names': self.app_verbose_names,
+            })
+        return context
 
 
 class ModelListView(AdminModel2Mixin, generic.ListView):

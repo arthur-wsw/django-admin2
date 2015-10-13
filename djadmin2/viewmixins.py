@@ -16,6 +16,8 @@ from django.utils.translation import ugettext as _
 # in braces 1.4 this was moved views._access and not exported in views
 # not sure if this was the intent of braces or an oversight
 # if intent - should look at AccessMixin vs. using a more specific mixin
+from djadmin2.templatetags.admin2_tags import for_admin, for_view
+
 try:
     from braces.views import AccessMixin
 except ImportError:
@@ -68,6 +70,23 @@ class PermissionMixin(AccessMixin):
             'permissions': permission_checker,
         })
         return context
+
+    def get_authorized_registry(self, registry, permissions):
+        authorized_registry = {}
+        for model_class, model_admin in registry.items():
+            permissions = for_admin(permissions, model_admin)
+            if for_view(permissions, 'view') or for_view(permissions, 'add') or for_view(permissions, 'change'):
+                authorized_registry.update({model_class: model_admin})
+        return authorized_registry
+
+    def get_authorized_apps(self, apps, permissions):
+        authorized_apps = {}
+        for app_label, registry in apps.items():
+            if registry:
+                authorized_registry = self.get_authorized_registry(registry, permissions)
+                if authorized_registry:
+                    authorized_apps.update({app_label: registry})
+        return authorized_apps
 
 
 class Admin2Mixin(PermissionMixin):
