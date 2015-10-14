@@ -99,8 +99,12 @@ class Admin2Mixin(PermissionMixin):
     index_path = reverse_lazy('admin2:dashboard')
 
     def get_template_names(self):
-        return [os.path.join(
-            settings.ADMIN2_THEME_DIRECTORY, self.default_template_name)]
+        template_names = [os.path.join(settings.ADMIN2_THEME_DIRECTORY, self.default_template_name)]
+        if self.app_label:
+            template_names.insert(0, os.path.join(settings.ADMIN2_THEME_DIRECTORY, 'apps', self.app_label, self.default_template_name))
+            if self.model_name:
+                template_names.insert(0, os.path.join(settings.ADMIN2_THEME_DIRECTORY, 'apps', self.app_label, self.model_name, self.default_template_name))
+        return template_names
 
     def get_model(self):
         return self.model
