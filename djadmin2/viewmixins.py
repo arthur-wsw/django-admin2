@@ -16,6 +16,7 @@ from django.utils.translation import ugettext as _
 # in braces 1.4 this was moved views._access and not exported in views
 # not sure if this was the intent of braces or an oversight
 # if intent - should look at AccessMixin vs. using a more specific mixin
+import djadmin2
 from djadmin2.templatetags.admin2_tags import for_admin, for_view
 
 try:
@@ -97,7 +98,6 @@ class Admin2Mixin(PermissionMixin):
     app_label = None
 
     index_path = reverse_lazy('admin2:dashboard')
-
     def get_template_names(self):
         template_names = [os.path.join(settings.ADMIN2_THEME_DIRECTORY, self.default_template_name)]
         if self.app_label:
@@ -118,8 +118,12 @@ class Admin2Mixin(PermissionMixin):
         return modelform_factory(self.get_model())
 
     def is_user(self, request):
-        return hasattr(request, 'user') and not (request.user.is_active and
-                                                 request.user.is_staff)
+        if hasattr(request, 'user') and not request.user.is_active:
+            if settings.ADMIN2_STAFF_REQUIRED and request.user.is_staff:
+                re
+            return True
+        return False
+        return hasattr(request, 'user') and not (request.user.is_active and request.user.is_staff)
 
     def dispatch(self, request, *args, **kwargs):
 
@@ -133,8 +137,7 @@ class Admin2Mixin(PermissionMixin):
                 extra = {
                     'next': request.GET.get('next', self.index_path)
                 }
-                return LoginView().dispatch(request, extra_context=extra,
-                                            *args, **kwargs)
+                return djadmin2.default.login_view().dispatch(request, extra_context=extra, *args, **kwargs)
 
         return super(Admin2Mixin, self).dispatch(request, *args, **kwargs)
 
