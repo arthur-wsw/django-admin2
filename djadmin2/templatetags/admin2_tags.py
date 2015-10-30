@@ -96,6 +96,8 @@ def for_view(permissions, view):
     # bind a new admin to it.
     if permissions == '':
         return permissions
+    if view is None:
+        return ''
     return permissions.bind_view(view)
 
 
@@ -109,6 +111,8 @@ def for_object(permissions, obj):
     # bind a new object to it.
     if permissions == '':
         return permissions
+    if obj is None:
+        return ''
     return permissions.bind_object(obj)
 
 
