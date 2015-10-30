@@ -28,6 +28,10 @@ class Admin2(object):
     admin site.
     """
     index_view = views.IndexView
+    login_view = views.LoginView
+    logout_view = views.LogoutView
+    password_change_view = views.PasswordChangeView
+    password_change_done_view = views.PasswordChangeDoneView
     app_index_view = views.AppIndexView
     api_index_view = apiviews.IndexAPIView
 
@@ -167,15 +171,15 @@ class Admin2(object):
                 name='dashboard'
                 ),
             url(regex='^auth/user/(?P<pk>\d+)/update/password/$',
-                view=views.PasswordChangeView.as_view(),
+                view=self.password_change_view.as_view(),
                 name='password_change'
                 ),
             url(regex='^password_change_done/$',
-                view=views.PasswordChangeDoneView.as_view(),
+                view=self.password_change_done_view.as_view(),
                 name='password_change_done'
                 ),
             url(regex='^logout/$',
-                view=views.LogoutView.as_view(),
+                view=self.logout_view.as_view(),
                 name='logout'
                 ),
             url(regex=r'^(?P<app_label>\w+)/$',
