@@ -55,8 +55,8 @@ class NullBooleanLinksWidget(
 #: custom form widget.
 FILTER_TYPE_TO_WIDGET = {
     django_filters.BooleanFilter: NullBooleanLinksWidget,
-    django_filters.ChoiceFilter: ChoicesAsLinksWidget,
-    django_filters.ModelChoiceFilter: ChoicesAsLinksWidget,
+    #django_filters.ChoiceFilter: ChoicesAsLinksWidget,
+    #django_filters.ModelChoiceFilter: ChoicesAsLinksWidget,
 }
 
 
