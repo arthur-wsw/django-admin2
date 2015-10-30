@@ -125,13 +125,18 @@ class BasePermission(object):
         return self.has_permission(request, view, obj)
 
 
+class IsAuthenticatedPermission(BasePermission):
+    '''
+    It ensures that the user is authenticated
+    '''
+    permissions = (is_authenticated, )
+
+
 class IsStaffPermission(BasePermission):
     '''
     It ensures that the user is authenticated and is a staff member.
     '''
-    permissions = (
-        is_authenticated,
-        is_staff)
+    permissions = (is_authenticated, is_staff)
 
 
 class IsSuperuserPermission(BasePermission):
@@ -139,9 +144,7 @@ class IsSuperuserPermission(BasePermission):
     It ensures that the user is authenticated and is a superuser. However it
     does not check if the user is a staff member.
     '''
-    permissions = (
-        is_authenticated,
-        is_superuser)
+    permissions = (is_authenticated, is_superuser)
 
 
 # TODO: needs documentation
